@@ -1,0 +1,2 @@
+Tutorial de donde sacas la API:
+http://www.thegreatcodeadventure.com/building-a-simple-crud-app-with-react-redux-part-1/
