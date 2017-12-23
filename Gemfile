@@ -13,7 +13,7 @@ gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'jwt'
 gem 'figaro'
-gem 'bcrypt'
+gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

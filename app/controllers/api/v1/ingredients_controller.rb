@@ -1,6 +1,7 @@
 module Api
   module V1
     class IngredientsController < ApplicationController
+      before_action :authenticate_request!
 
       def index
         render json: Ingredient.all

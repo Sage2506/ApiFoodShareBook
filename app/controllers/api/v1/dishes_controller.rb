@@ -1,9 +1,10 @@
 module Api
   module V1
     class DishesController < ApplicationController
+      before_action :authenticate_request!
 
       def index
-        render json: Dish.all
+            render json: Dish.all
       end
 
       def show
