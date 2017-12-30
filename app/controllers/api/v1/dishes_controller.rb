@@ -4,7 +4,7 @@ module Api
       before_action :authenticate_request!
 
       def index
-            render json: Dish.all
+            paginate json: Dish.all, per_page: 15
       end
 
       def show
