@@ -44,7 +44,7 @@ d40 = Dish.create(name: "Cochinita Pibil", description: "La cochinita pibil es u
 
 i1 = Ingredient.create(name:"hoja de plátano", description: "pasado por la flama para ablandarlo", image:"http://www.quericavida.com/-/media/Images/QRV/que-rico/tasty-trends/plantain-leaves-naturally-wrapped-flavor-tradition/plantain-leaves-naturally-wrapped-flavor-tradition_hero.jpg")
 i2 = Ingredient.create(name:"pierna de cerdo", description: "kilos", image:"http://tiendaencuba.com/media/catalog/product/cache/1/thumbnail/600x/17f82f742ffe127f42dca9de82fb58b1/1/0/10028.jpg")
-i2 = Ingredient.create(name:"lomo de cerdo", description: "kilos", image:"https://okdiario.com/recetas/img/2017/04/06/lomo-de-cerdo-6.jpg")
+i3 = Ingredient.create(name:"lomo de cerdo", description: "kilos", image:"https://okdiario.com/recetas/img/2017/04/06/lomo-de-cerdo-6.jpg")
 
 DishIngredient.create(dish: d1, ingredient: i1)
 DishIngredient.create(dish: d1, ingredient: i2)
