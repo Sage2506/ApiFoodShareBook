@@ -7,6 +7,9 @@ Rails.application.routes.draw do
         post 'login'
       end
     end
+    resources :users do
+      get 'show'
+    end
 
 
     resources :dishes, only: [:index, :create, :destroy, :update]

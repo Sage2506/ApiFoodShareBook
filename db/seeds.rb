@@ -1,3 +1,5 @@
+u1 = User.create(email: "german2506.gs@gmail.com", password_digest: "25061996sayan5")
+
 d1 = Dish.create(name: "Cochinita Pibil", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://cdn.kiwilimon.com/recetaimagen/495/th5-640x426-2200.jpg")
 d2 = Dish.create(name: "Cochinita Pibil", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://cdn.kiwilimon.com/recetaimagen/495/th5-640x426-2200.jpg")
 d3 = Dish.create(name: "Cochinita Pibil", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://cdn.kiwilimon.com/recetaimagen/495/th5-640x426-2200.jpg")
@@ -49,3 +51,5 @@ i3 = Ingredient.create(name:"lomo de cerdo", description: "kilos", image:"https:
 DishIngredient.create(dish: d1, ingredient: i1)
 DishIngredient.create(dish: d1, ingredient: i2)
 DishIngredient.create(dish: d1, ingredient: i3)
+
+UserLikesDish.create(user: u1, dish: d1)

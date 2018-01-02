@@ -1,7 +1,7 @@
 module Api
   module V1
     class DishesController < ApplicationController
-      before_action :authenticate_request!
+      before_action only:[:show] do :authenticate_request! end
 
       def index
             paginate json: Dish.all, per_page: 15
@@ -35,7 +35,7 @@ module Api
       private
 
         def dish_params
-          params.require(:dish).permit(:id, :name, :description, :recipe, :ingredient_ids => [])
+          params.require(:dish).permit(:id, :name, :description, :recipe, :ingredient_ids => [], :users_ids => [])
         end
     end
   end

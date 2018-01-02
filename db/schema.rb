@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171229230536) do
+ActiveRecord::Schema.define(version: 20180102032001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20171229230536) do
     t.bigint "ingredient_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "quantity"
+    t.integer "measure"
     t.index ["dish_id"], name: "index_dish_ingredients_on_dish_id"
     t.index ["ingredient_id"], name: "index_dish_ingredients_on_ingredient_id"
   end
@@ -31,6 +33,9 @@ ActiveRecord::Schema.define(version: 20171229230536) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
+    t.bigint "user_id"
+    t.integer "diners"
+    t.index ["user_id"], name: "index_dishes_on_user_id"
   end
 
   create_table "ingredients", force: :cascade do |t|
@@ -41,6 +46,15 @@ ActiveRecord::Schema.define(version: 20171229230536) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_likes_dishes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "dish_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_user_likes_dishes_on_dish_id"
+    t.index ["user_id"], name: "index_user_likes_dishes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
@@ -48,4 +62,5 @@ ActiveRecord::Schema.define(version: 20171229230536) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "dishes", "users"
 end

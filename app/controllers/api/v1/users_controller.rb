@@ -11,6 +11,10 @@ module Api
         end
       end
 
+      def show
+        render json: User.find(params[:id])
+      end
+
       def login
         user = User.find_by(email: params[:email].to_s.downcase)
 
@@ -25,7 +29,7 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(:email, :password, :password_confirmation)
+        params.require(:user).permit(:id, :email, :password, :password_confirmation, :dishes_ids => [])
       end
     end
   end
