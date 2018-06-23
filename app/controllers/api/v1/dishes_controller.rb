@@ -1,7 +1,7 @@
 module Api
   module V1
     class DishesController < ApplicationController
-      before_action only:[:show] do :authenticate_request! end
+      before_action only:[:create, :update, :destroy] do :authenticate_request! end
 
       def index
             paginate json: Dish.all, per_page: 15

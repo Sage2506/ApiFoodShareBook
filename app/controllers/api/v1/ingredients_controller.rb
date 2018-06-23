@@ -1,7 +1,7 @@
 module Api
   module V1
     class IngredientsController < ApplicationController
-      before_action :authenticate_request!
+      before_action only:[:create, :update] do :authenticate_request! end
 
       def index
         render json: Ingredient.all
@@ -29,7 +29,7 @@ module Api
       private
 
         def ingredient_params
-          params.require(:ingredient).permit(:id, :name, :description, :image)
+          params.require(:ingredient).permit(:id, :name, :description, :image, :measure_ids => [])
         end
     end
   end

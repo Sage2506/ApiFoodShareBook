@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :users do
       get 'show'
     end
-
+    resources :ingredient_measures, only: [:index, :create]
 
     resources :dishes, only: [:index, :create, :destroy, :update]
     resources :dishes do
@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   resources :dish_ingredients do
     get 'show'
   end
+  resources :measures, only: [:index]
+
 
 end
 end

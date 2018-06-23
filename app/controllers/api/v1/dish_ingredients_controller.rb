@@ -1,7 +1,7 @@
 module Api
   module V1
     class DishIngredientsController < ApplicationController
-
+      before_action only:[:create, :destroy] do :authenticate_request! end
       def index
         render json: DishIngredient.all
       end
@@ -11,11 +11,19 @@ module Api
       end
 
       def create
-        dish_ingredient = DishIngredient.new(dish_ingredient_params)
-        if dish_ingredient.save
-          render json: dish_ingredient
+        dish_ingredient = DishIngredient.find_by(
+          dish_id: params[:dish_id],
+          ingredient_id: params[:ingredient_id]
+        )
+        if dish_ingredient == nil
+          dish_ingredient = DishIngredient.new(dish_ingredient_params)
+          if dish_ingredient.save
+            render json: dish_ingredient
+          else
+            render json: dish_ingredient.errors.full_message
+          end
         else
-          render json: {status: 500, err: 'Dish could not be saved.'}
+          render json: dish_ingredient
         end
       end
 
