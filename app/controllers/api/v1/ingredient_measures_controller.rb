@@ -1,7 +1,7 @@
 module Api
   module V1
     class IngredientMeasuresController < ApplicationController
-      before_action only:[:create] do :authenticate_request! end
+      before_action :authenticate_request!, only: [:create]
         def index
           render json: IngredientMeasure.all
         end
@@ -15,17 +15,17 @@ module Api
             if ingredient_measure.save
               render json: ingredient_measure
             else
-              render ingredient_measure.errors.full_message
+              render status: :internal_server_error, json: {message:  ingredient_measure.errors.full_message}
             end
           else
-            render json: ingredient_measure
+            render status: :conflict, json: ingredient_measure
           end
 
         end
         private
 
         def ingredient_measure_params
-          params.require(:ingredient_measure).permit(:ingredient_id, :measure_id)
+          params.require(:ingredient_measure).permit(:id, :ingredient_id, :measure_id)
         end
       end
     end

@@ -1,7 +1,7 @@
 module Api
   module V1
     class IngredientsController < ApplicationController
-      before_action only:[:create, :update] do :authenticate_request! end
+      before_action :authenticate_request!, only: [:create, :update]
 
       def index
         render json: Ingredient.all
@@ -12,11 +12,16 @@ module Api
       end
 
       def create
-        ingredient = Ingredient.new(ingredient_params)
-        if ingredient.save
-          render json: ingredient
+        ingredient = Ingredient.find_by(name: params[:name])
+        if ingredient == nil
+          ingredient = Ingredient.new(ingredient_params)
+          if ingredient.save
+            render json: ingredient
+          else
+            render status: :internal_server_error, json: { message: ingredient.errors.full_message}
+          end
         else
-          render json: {status: 500, err: 'ingredient could not be saved.'}
+          render status: :conflict, json: ingredient
         end
       end
 

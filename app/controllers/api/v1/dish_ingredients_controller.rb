@@ -1,7 +1,7 @@
 module Api
   module V1
     class DishIngredientsController < ApplicationController
-      before_action only:[:create, :destroy] do :authenticate_request! end
+      before_action :authenticate_request!, only: [:create, :destroy]
       def index
         render json: DishIngredient.all
       end
@@ -20,10 +20,10 @@ module Api
           if dish_ingredient.save
             render json: dish_ingredient
           else
-            render json: dish_ingredient.errors.full_message
+            render status: :internal_server_error, json: {message: dish_ingredient.errors.full_message}
           end
         else
-          render json: dish_ingredient
+          render status: :conflict, json: dish_ingredient
         end
       end
 
@@ -31,7 +31,7 @@ module Api
       def destroy
         dish = Dish.find(params[:id])
         dish.destroy
-        render json: {message: "successfully deleted!"}, status: 200
+        render json: {message: "successfully deleted!"}
       end
 
       private
