@@ -6,7 +6,7 @@ module Api
         if user_likes_dish.save
           render json:user_likes_dish
         else
-          render status: :internal_server_error json:{ message: user_likes_dish.errors.full_message}
+          render status: :internal_server_error, json: {message: user_likes_dish.errors.full_message}
         end
       end
       def destroy
