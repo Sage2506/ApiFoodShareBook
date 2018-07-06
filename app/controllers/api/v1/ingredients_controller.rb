@@ -12,7 +12,7 @@ module Api
       end
 
       def create
-        ingredient = Ingredient.find_by(name: params[:name])
+        ingredient = Ingredient.find_by(name: params[:name], description: params[:description])
         if ingredient == nil
           ingredient = Ingredient.new(ingredient_params)
           if ingredient.save
