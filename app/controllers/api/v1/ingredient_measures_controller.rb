@@ -6,6 +6,14 @@ module Api
           render json: IngredientMeasure.all
         end
 
+        def show
+          ingredient_measure = IngredientMeasure.find(params[:id])
+          if(ingredient_measure == nil)
+            render status: :not_found, json: {message: ingredient_measure.errors.full_message}
+          else
+          render json: IngredientMeasure.find(params[:id])
+          end
+        end
         def create
           ingredient_measure = IngredientMeasure.find_by(
                                                   ingredient_id: params[:ingredient_id],
@@ -21,16 +29,6 @@ module Api
             render status: :conflict, json: ingredient_measure
           end
 
-          def show
-            ingredient_measure = IngredientMeasure.find_by(
-                                                    ingredient_id: params[:ingredient_id],
-                                                    measure_id: params[:measure_id])
-            if(ingredient_measure == nil)
-              render status: :not_found, json: {message: ingredient_measure.errors.full_message}
-            else
-            render json: IngredientMeasure.find(params[:id])
-          end
-          end
 
         end
         private
