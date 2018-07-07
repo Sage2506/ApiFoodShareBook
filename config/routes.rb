@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       get 'show'
     end
     resources :ingredient_measures, only: [:index, :create]
+    resources :ingredient_measure do
+      get 'show'
+    end
 
     resources :dishes, only: [:index, :create, :destroy, :update]
     resources :dishes do
