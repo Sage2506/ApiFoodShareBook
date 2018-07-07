@@ -28,7 +28,7 @@ module Api
             if(ingredient_measure == nil)
               render status: :not_found, json: {message: ingredient_measure.errors.full_message}
             else
-            render json: Dish.find(params[:id])
+            render json: IngredientMeasure.find(params[:id])
           end
           end
 
