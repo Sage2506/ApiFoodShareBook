@@ -34,7 +34,7 @@ module Api
         private
 
         def ingredient_measure_params
-          params.require(:ingredient_measure).permit(:id, :ingredient_id, :measure_id)
+          params.require(:ingredient_measure).permit(:ingredient_id, :measure_id)
         end
       end
     end

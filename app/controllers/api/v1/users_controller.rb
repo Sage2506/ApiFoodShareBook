@@ -30,7 +30,7 @@ module Api
       private
 
       def user_params
-        params.require(:user).permit(:id, :email, :password, :password_confirmation, :dishes_ids => [])
+        params.require(:user).permit(:email, :password, :password_confirmation, :dishes_ids => [])
       end
     end
   end

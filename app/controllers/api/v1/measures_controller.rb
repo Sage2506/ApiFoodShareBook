@@ -1,13 +1,13 @@
 module Api
   module V1
     class MeasuresController < ApplicationController
-    
+
         def index
           render json: Measure.all
         end
         private
         def measure_params
-          params.require(:measure).permit(:id, :name)
+          params.require(:measure).permit(:name)
         end
       end
     end

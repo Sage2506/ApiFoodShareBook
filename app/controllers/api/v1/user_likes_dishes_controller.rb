@@ -17,7 +17,7 @@ module Api
 
       private
       def user_likes_dish_params
-        params.require(:user_likes_dish).permit(:id, :user_id, :dish_id)
+        params.require(:user_likes_dish).permit(:user_id, :dish_id)
       end
     end
   end
