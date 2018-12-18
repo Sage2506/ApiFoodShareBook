@@ -1,3 +1,6 @@
+User.create(email: "german_sjj4@hotmail.com", 
+password_digest: BCrypt::Password.create('25061996sayan5'))
+
 u1 = User.find(1)
 
 m1 = Measure.create(name: "Piezas")
@@ -58,9 +61,9 @@ i1 = Ingredient.create(name:"hoja de plátano", description: "pasado por la flam
 i2 = Ingredient.create(name:"pierna de cerdo", description: "kilos", image:"http://tiendaencuba.com/media/catalog/product/cache/1/thumbnail/600x/17f82f742ffe127f42dca9de82fb58b1/1/0/10028.jpg")
 i3 = Ingredient.create(name:"lomo de cerdo", description: "kilos", image:"https://okdiario.com/recetas/img/2017/04/06/lomo-de-cerdo-6.jpg")
 
-DishIngredient.create(dish: d1, ingredient: i1)
-DishIngredient.create(dish: d1, ingredient: i2)
-DishIngredient.create(dish: d1, ingredient: i3)
+DishIngredient.create(dish: d1, ingredient: i1, quantity: 1.200, measure_id: 1)
+DishIngredient.create(dish: d1, ingredient: i2, quantity: 1.400, measure_id: 1)
+DishIngredient.create(dish: d1, ingredient: i3, quantity: 1.600, measure_id: 2)
 
 
 UserLikesDish.create(user: u1, dish: d1)
