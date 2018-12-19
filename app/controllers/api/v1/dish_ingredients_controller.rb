@@ -37,7 +37,7 @@ module Api
       private
 
         def dish_ingredient_params
-          params.require(:dish_ingredient).permit(:dish_id, :ingredient_id)
+          params.require(:dish_ingredient).permit(:dish_id, :ingredient_id, :quantity, :measure_id)
         end
     end
   end
