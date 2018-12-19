@@ -2,10 +2,10 @@ class DishIngredientSerializer < ActiveModel::Serializer
   attributes :id, :quantity, :measure, :ingredient
 
   def measure
-    object.measure.slice('name')
+    object.measure
   end
 
   def ingredient
-    object.ingredient.slice('name','description','image')
+    object.ingredient
   end
 end
