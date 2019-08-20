@@ -12,19 +12,27 @@ module Api
       end
 
       def create
+        result = 0
+        dish = nil
         Dish.transaction do
           dish = Dish.new(dish_params)
           dish.user_id = @current_user.id
           if dish.save
-            if dish.save_ingredients(params[:dish_ingredients])
-              render json: dish
-            else
+            if !dish.save_ingredients(params[:dish_ingredients])
+              result = 2
               raise ActiveRecord::Rollback, "Ingredients were not saved"
-              render status: :unprocessable_entity, json: {message: "Ingredients were not saved"}
             end
           else
-            render status: :internal_server_error, json: { message: dish.errors.full_message}
+            result = 1
           end
+        end
+
+        if result == 1
+          render status: :internal_server_error, json: { message: dish.errors.full_message}
+        elsif result == 2
+          render status: :unprocessable_entity, json: {message: "One or more ingredients were not saved, check if ingredient and measure exists"}
+        else
+          render json: dish
         end
       end
 
