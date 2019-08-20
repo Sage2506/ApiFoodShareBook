@@ -27,9 +27,10 @@ module Api
           end
         end
 
-        if result == 1
+        case result
+        when 1
           render status: :internal_server_error, json: { message: dish.errors.full_message}
-        elsif result == 2
+        when 2
           render status: :unprocessable_entity, json: {message: "One or more ingredients were not saved, check if ingredient and measure exists"}
         else
           render json: dish

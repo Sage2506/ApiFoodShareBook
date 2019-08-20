@@ -12,16 +12,27 @@ module Api
       end
 
       def create
-        ingredient = Ingredient.find_by(name: params[:name], description: params[:description])
-        if ingredient == nil
+        result = 0
+        ingredient = nil
+        Ingredient.transaction do
           ingredient = Ingredient.new(ingredient_params)
           if ingredient.save
-            render json: ingredient
+            if !ingredient.save_measures(params[:measures])
+            result = 2
+            raise ActiveRecord::Rollback, "Ingredient not saved"
+            end
           else
-            render status: :internal_server_error, json: { message: ingredient.errors.full_message}
+            result = 1
           end
+        end
+        
+        case result
+        when 1
+          render status: :internal_server_error, json: { message: ingredient.errors.full_message}
+        when 2
+          render status: :unprocessable_entity, json: {message: "One or more measures could not be created, check if measure exists"}
         else
-          render status: :conflict, json: ingredient
+          render json: ingredient
         end
       end
 
@@ -34,7 +45,7 @@ module Api
       private
 
         def ingredient_params
-          params.require(:ingredient).permit(:name, :description, :image, :measure_ids => [])
+          params.require(:ingredient).permit(:name, :description, :image, :measures)
         end
     end
   end
