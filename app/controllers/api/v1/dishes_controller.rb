@@ -12,16 +12,19 @@ module Api
       end
 
       def create
-        dish = Dish.find_by(name: params[:name])
-        if dish == nil
+        Dish.transaction do
           dish = Dish.new(dish_params)
+          dish.user_id = @current_user.id
           if dish.save
-            render json: dish
+            if dish.save_ingredients(params[:dish_ingredients])
+              render json: dish
+            else
+              raise ActiveRecord::Rollback, "Ingredients were not saved"
+              render status: :unprocessable_entity, json: {message: "Ingredients were not saved"}
+            end
           else
             render status: :internal_server_error, json: { message: dish.errors.full_message}
           end
-        else
-          render status: :conflict, json: dish
         end
       end
 
@@ -40,7 +43,7 @@ module Api
       private
 
         def dish_params
-          params.require(:dish).permit(:name, :description, :recipe, :ingredient_ids => [], :users_ids => [])
+          params.require(:dish).permit(:name, :description, :recipe, :user_id, :dish_ingredients)
         end
     end
   end
