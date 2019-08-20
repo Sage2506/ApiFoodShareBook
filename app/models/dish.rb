@@ -5,6 +5,7 @@ class Dish < ApplicationRecord
   has_many :users, through: :user_likes_dishes
 
   def save_ingredients(dish_ingredients)
+    result = true
     DishIngredient.transaction do
       dish_ingredients.each do |dish_ingredient|
         new_dish_ingredient = DishIngredient.new(
@@ -14,11 +15,12 @@ class Dish < ApplicationRecord
           measure_id: dish_ingredient[:measure_id]
         )
         if !new_dish_ingredient.save
+          result = false
           raise ActiveRecord::Rollback, "Ingredient not saved"
         end
       end
-      return true
     end
-    return false
+    return result
   end
+
 end
