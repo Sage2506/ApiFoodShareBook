@@ -6,7 +6,8 @@ module Api
         user = User.new(user_params)
 
         if user.save
-          render json: {status: 'User created successfully'}, status: :created
+          auth_token = JsonWebToken.encode({user_id: user.id})
+          render json: {status: 'User created successfully', auth_token: auth_token}, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :bad_request
         end
