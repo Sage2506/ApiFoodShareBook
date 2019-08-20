@@ -18,7 +18,7 @@ module Api
           dish = Dish.new(dish_params)
           dish.user_id = @current_user.id
           if dish.save
-            if !dish.save_ingredients(params[:dish_ingredients])
+            if params[:dish_ingredients] && !dish.save_ingredients(params[:dish_ingredients])
               result = 2
               raise ActiveRecord::Rollback, "Ingredients were not saved"
             end

@@ -17,7 +17,7 @@ module Api
         Ingredient.transaction do
           ingredient = Ingredient.new(ingredient_params)
           if ingredient.save
-            if !ingredient.save_measures(params[:measures])
+            if params[:measures] && !ingredient.save_measures(params[:measures])
             result = 2
             raise ActiveRecord::Rollback, "Ingredient not saved"
             end
