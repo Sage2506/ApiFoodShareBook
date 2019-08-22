@@ -52,7 +52,7 @@ module Api
       private
 
         def dish_params
-          params.require(:dish).permit(:name, :description, :recipe, :user_id, :dish_ingredients)
+          params.require(:dish).permit(:name, :description, :recipe, :user_id, :dish_ingredients, :image)
         end
     end
   end
