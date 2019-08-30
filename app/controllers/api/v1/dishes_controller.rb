@@ -4,7 +4,7 @@ module Api
       before_action :authenticate_request!, only: [:create, :update, :destroy]
 
       def index
-            paginate json: Dish.all, per_page: 15
+            paginate json: Dish.ransack(params[:q]).result
       end
 
       def show
