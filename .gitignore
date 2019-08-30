@@ -46,3 +46,6 @@ bower.json
 config/database\.yml
 
 config/
+
+# Exeption for pagination initializers
+! config/initializers/api_pagination.rb

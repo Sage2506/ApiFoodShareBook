@@ -2,9 +2,8 @@ module Api
   module V1
     class IngredientsController < ApplicationController
       before_action :authenticate_request!, only: [:create, :update]
-
       def index
-        render json: Ingredient.all
+          paginate json: Ingredient.ransack(params[:q]).result
       end
 
       def show
