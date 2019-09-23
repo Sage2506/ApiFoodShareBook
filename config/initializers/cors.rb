@@ -11,6 +11,7 @@
 
      resource '*',
        headers: :any,
+       expose: ['Pagination-Total','Pagination-Per-Page','Pagination-Page'],
        methods: [:get, :post, :put, :patch, :delete, :options, :head]
    end
  end
