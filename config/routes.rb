@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       get 'show'
     end
 
-    resources :ingredients, only: [:index, :create, :update]
+    resources :ingredients, only: [:index, :create, :destroy, :update]
     resources :ingredients do
       get 'show'
     end
