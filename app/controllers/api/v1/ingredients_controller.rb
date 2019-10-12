@@ -2,14 +2,16 @@ module Api
   module V1
     class IngredientsController < ApplicationController
       before_action :authenticate_request!, only: [:create, :update]
+      before_action :set_ingredient, only: [:show, :update, :destroy]
+      #GET ingredients
       def index
           paginate json: Ingredient.ransack(params[:q]).result
       end
-
+      #GET ingredients/:id
       def show
-        render json: Ingredient.find(params[:id])
+        render json: @ingredient
       end
-
+      #POST ingredients
       def create
         result = 0
         ingredient = nil
@@ -34,24 +36,28 @@ module Api
           render json: ingredient
         end
       end
-
+      #PUT ingredients/:id
       def update
-        ingredient = Ingredient.find(params[:id])
-        ingredient.update(ingredient_params)
-        render json: ingredient
+        @ingredient.update(ingredient_params)
+        @ingredient.ingredient_measures.destroy_all
+        @ingredient.save_measures(params[:measures])
+        render json: @ingredient
       end
-
+      #DELETE ingredients/:id
       def destroy
-        ingredient = Ingredient.find(params[:id])
-        ingredient.destroy
+        @ingredient.destroy
         render json: {message: "successfully deleted!"}, status: 200
       end
 
       private
+      
+      def set_ingredient
+        @ingredient = Ingredient.find(params[:id])
+      end
 
-        def ingredient_params
-          params.require(:ingredient).permit(:name, :description, :image, :measures)
-        end
+      def ingredient_params
+        params.require(:ingredient).permit(:name, :description, :image)
+      end
     end
   end
 end
