@@ -2,15 +2,16 @@ module Api
   module V1
     class DishesController < ApplicationController
       before_action :authenticate_request!, only: [:create, :update, :destroy]
-
+      before_action :set_dish, only: [:show, :update, :destroy]
+      #GET dishes
       def index
-            paginate json: Dish.ransack(params[:q]).result
+        paginate json: Dish.ransack(params[:q]).result
       end
-
+      #GET dishes/:id
       def show
-        render json: Dish.find(params[:id])
+        render json: @dish
       end
-
+      #POST dishes
       def create
         result = 0
         dish = nil
@@ -36,24 +37,28 @@ module Api
           render json: dish
         end
       end
-
+      #PUT dishes/:id
       def update
-        dish = Dish.find(params[:id])
-        dish.update(dish_params)
-        render json: dish
+        @dish.update(dish_params)
+        @dish.dish_ingredients.destroy_all
+        @dish.save_ingredients(params[:dish_ingredients])
+        render json: @dish
       end
-
+      #DELETE dishes/:id
       def destroy
-        dish = Dish.find(params[:id])
-        dish.destroy
+        @dish.destroy
         render json: {message: "successfully deleted!"}, status: 200
       end
 
       private
+      
+      def set_dish
+        @dish = Dish.find(params[:id])
+      end
 
-        def dish_params
-          params.require(:dish).permit(:name, :description, :recipe, :user_id, :dish_ingredients, :image)
-        end
+      def dish_params
+        params.require(:dish).permit(:name, :description, :recipe, :user_id, :image)
+      end
     end
   end
 end

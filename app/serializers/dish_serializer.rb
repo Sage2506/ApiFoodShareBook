@@ -4,12 +4,13 @@ class DishSerializer < ActiveModel::Serializer
 
     def dish_ingredients
       self.object.dish_ingredients.map do |dish_ingredient|
-         { ingredient_id: dish_ingredient.ingredient.id,
+         { 
+           ingredient_id: dish_ingredient.ingredient.id,
            ingredient_name: dish_ingredient.ingredient.name,
            ingredient_image: dish_ingredient.ingredient.image,
            measure_id: dish_ingredient.measure_id,
-           quantity: dish_ingredient.quantity }
-        
+           quantity: dish_ingredient.quantity 
+          }
       end
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181218214408) do
+ActiveRecord::Schema.define(version: 20190820155123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20181218214408) do
     t.string "image"
     t.bigint "user_id"
     t.integer "diners"
+    t.boolean "status", default: true
     t.index ["user_id"], name: "index_dishes_on_user_id"
   end
 

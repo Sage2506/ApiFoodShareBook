@@ -2,14 +2,17 @@ module Api
   module V1
     class DishIngredientsController < ApplicationController
       before_action :authenticate_request!, only: [:create, :destroy]
+      #GET dish_ingredients
       def index
         render json: DishIngredient.all
       end
-
+      
+      #GET dish_ingredients/:id
       def show
         render json: DishIngredient.find(params[:id])
       end
-
+      
+      #POST dish_ingredients
       def create
         dish_ingredient = DishIngredient.find_by(
           dish_id: params[:dish_id],
@@ -27,7 +30,7 @@ module Api
         end
       end
 
-
+      #DELETE dish_ingredients
       def destroy
         dish = Dish.find(params[:id])
         dish.destroy
@@ -35,10 +38,10 @@ module Api
       end
 
       private
-
-        def dish_ingredient_params
-          params.require(:dish_ingredient).permit(:dish_id, :ingredient_id, :quantity, :measure_id)
-        end
+      
+      def dish_ingredient_params
+        params.require(:dish_ingredient).permit(:dish_id, :ingredient_id, :quantity, :measure_id)
+      end
     end
   end
 end
