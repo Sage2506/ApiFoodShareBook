@@ -45,8 +45,11 @@ module Api
       end
       #DELETE ingredients/:id
       def destroy
-        @ingredient.destroy
-        render json: {message: "successfully deleted!"}, status: 200
+        if @ingredient.destroy
+          render json: {message: "successfully deleted!"}, status: 200
+        else
+          render json: {message: "Ingredient could not be deleted"}, status: 409
+        end 
       end
 
       private
