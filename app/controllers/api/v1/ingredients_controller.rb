@@ -26,7 +26,7 @@ module Api
             result = 1
           end
         end
-        
+
         case result
         when 1
           render status: :internal_server_error, json: { message: ingredient.errors.full_message}
@@ -45,15 +45,16 @@ module Api
       end
       #DELETE ingredients/:id
       def destroy
+        @ingredient.ingredient_measures.destroy_all
         if @ingredient.destroy
           render json: {message: "successfully deleted!"}, status: 200
         else
           render json: {message: "Ingredient could not be deleted"}, status: 409
-        end 
+        end
       end
 
       private
-      
+
       def set_ingredient
         @ingredient = Ingredient.find(params[:id])
       end
