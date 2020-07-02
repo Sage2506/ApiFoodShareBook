@@ -20,5 +20,5 @@ class Ingredient < ApplicationRecord
     end
     return result
   end
-  
+
 end
