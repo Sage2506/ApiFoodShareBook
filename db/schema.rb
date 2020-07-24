@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190820155123) do
+ActiveRecord::Schema.define(version: 20200722171647) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,43 @@ ActiveRecord::Schema.define(version: 20190820155123) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "permission_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string "list"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "role_id"
+    t.bigint "permission_type_id"
+    t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
+    t.index ["role_id"], name: "index_permissions_on_role_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "system_modules", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "system_permissions", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "permission_type_id"
+    t.index ["permission_type_id"], name: "index_system_permissions_on_permission_type_id"
+  end
+
   create_table "user_likes_dishes", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "dish_id"
@@ -77,10 +114,16 @@ ActiveRecord::Schema.define(version: 20190820155123) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "role_id"
+    t.index ["role_id"], name: "index_users_on_role_id"
   end
 
   add_foreign_key "dish_ingredients", "measures"
   add_foreign_key "dishes", "users"
   add_foreign_key "ingredient_measures", "ingredients"
   add_foreign_key "ingredient_measures", "measures"
+  add_foreign_key "permissions", "permission_types"
+  add_foreign_key "permissions", "roles"
+  add_foreign_key "system_permissions", "permission_types"
+  add_foreign_key "users", "roles"
 end

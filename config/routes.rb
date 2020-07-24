@@ -2,9 +2,10 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
   namespace :v1 do
-    resources :users, only: :create do
+    resources :users, only: [:index, :create, :show] do
       collection do
         post 'login'
+        get 'current_user_data'
       end
     end
     resources :users do
@@ -30,6 +31,13 @@ Rails.application.routes.draw do
     get 'show'
   end
   resources :measures, only: [:index]
+
+  resources :permission_types, only:[:index, :create]
+
+  resources :roles, only:[:index, :create]
+  resources :roles do
+    get 'show'
+  end
 
 
 end
