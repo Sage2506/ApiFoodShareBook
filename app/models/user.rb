@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  belongs_to :role
   has_many :user_likes_dishes
   has_many :dishes, through: :user_likes_dishes
 
@@ -12,6 +13,10 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = self.email.delete(' ').downcase
+  end
+
+  def isAdmin
+    return self.role.name == 'Admin'
   end
 
   # def generate_confirmation_instructions

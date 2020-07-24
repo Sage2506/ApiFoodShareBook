@@ -1,5 +1,11 @@
-User.create(email: "german_sjj4@hotmail.com", 
-password_digest: BCrypt::Password.create('25061996sayan5'))
+Role.create(name:'Admin')
+Role.create(name:'Manager')
+Role.create(name:'Tester')
+Role.create(name:'Registered')
+Role.create(name:'Unregistered')
+
+User.create(email: "german_sjj4@hotmail.com",
+password_digest: BCrypt::Password.create('25061996sayan5'), role_id: 1)
 
 u1 = User.find(1)
 

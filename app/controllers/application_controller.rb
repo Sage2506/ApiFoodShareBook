@@ -26,6 +26,16 @@ rescue
   nil
 end
 
+# Returns a type of user acording to the token
+def user_type!
+  if !payload || !JsonWebToken.valid_payload(payload.first)
+    @role_id = 5
+  else
+    load_current_user!
+    @role_id = 5 unless @current_user
+  end
+end
+
 # Sets the @current_user with the user_id from payload
 def load_current_user!
   @current_user = User.find_by(id: payload[0]['user_id'])
