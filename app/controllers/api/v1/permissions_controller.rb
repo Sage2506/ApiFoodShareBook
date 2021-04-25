@@ -1,5 +1,5 @@
 module Api
-  V1
+  module V1
     class PermissionsController < ApplicationController
       def index
         paginate json: Permission.ransack(params[:q]).result
