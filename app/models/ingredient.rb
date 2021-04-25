@@ -12,6 +12,7 @@ class Ingredient < ApplicationRecord
           measure_id: measure_id,
           ingredient_id: self.id
         )
+
         if(!new_ingredient_measure.save)
           result = false
           raise ActiveRecord::Rollback, "Ingredient measure not saved"
