@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: http://rubygems.org/
   specs:
     actioncable (5.1.7)
       actionpack (= 5.1.7)
@@ -74,11 +74,11 @@ GEM
       mini_mime (>= 0.1.1)
     method_source (1.0.0)
     mini_mime (1.1.0)
-    mini_portile2 (2.5.0)
     minitest (5.14.4)
     nio4r (2.5.7)
-    nokogiri (1.11.3)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.11.3-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.11.3-x86_64-linux)
       racc (~> 1.4)
     pg (0.21.0)
     polyamorous (2.3.0)
@@ -150,7 +150,8 @@ GEM
     will_paginate (3.3.0)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-18
+  x86_64-linux
 
 DEPENDENCIES
   active_model_serializers
@@ -175,4 +176,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   2.1.4
+   2.2.16
