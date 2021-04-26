@@ -8,6 +8,8 @@ class User < ApplicationRecord
   validates_uniqueness_of :email, case_sensitive: false
   validates_format_of :email, with: /@/
 
+  after_initialize :set_defaults, unless: :persisted?
+  # The set_defaults will only work if the object is new
   before_save :downcase_email
   # before_create :generate_confirmation_instructions
 
@@ -23,4 +25,11 @@ class User < ApplicationRecord
   #   self.confirmation_token = SecureRandom.hex(10)
   #   self.confirmation_sent_at = Time.now.utc
   # end
+
+  def set_defaults
+    if !self.role_id
+      self.role_id = 4
+    end
+  end
+
 end
