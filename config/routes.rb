@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   resources :permission_types, only:[:index, :create]
 
-  resources :permissions, only:[:index]
+  resources :permissions, only:[:index, :create]
 
   resources :roles, only:[:index, :create]
   resources :roles do

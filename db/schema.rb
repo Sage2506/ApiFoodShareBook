@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200722171647) do
+ActiveRecord::Schema.define(version: 20210507192556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,11 +70,12 @@ ActiveRecord::Schema.define(version: 20200722171647) do
   end
 
   create_table "permissions", force: :cascade do |t|
-    t.string "list"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "role_id"
     t.bigint "permission_type_id"
+    t.string "name"
+    t.string "description"
     t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
     t.index ["role_id"], name: "index_permissions_on_role_id"
   end
