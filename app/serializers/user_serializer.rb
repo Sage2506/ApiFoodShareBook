@@ -8,9 +8,9 @@ class UserSerializer < ActiveModel::Serializer
     self.object.role.permissions.map do | permission |
       {
         name: permission.name,
-        description: permission.description
+        description: permission.description,
         type_id: permission.permission_type.id,
-        type_name: permission.permission_type.name,
+        type_name: permission.permission_type.name
         #list: permission.list
       }
     end
