@@ -41,7 +41,7 @@ module Api
       private
 
       def set_permission
-        @permission = Permission.find_by( params[:id] )
+        @permission = Permission.find( params[:id] )
       end
 
       def permission_params
