@@ -32,7 +32,7 @@ module Api
       def update
         @permission.update(permission_params)
         if @permission.save
-          render json: permission
+          render json: @permission
         else
           render status: :internal_server_error, json: { message: @permission.errors.full_message}
         end
