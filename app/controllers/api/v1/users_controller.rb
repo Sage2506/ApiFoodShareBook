@@ -3,6 +3,7 @@ module Api
     class UsersController < ApplicationController
       before_action :authenticate_request!, only: [:show, :create]
       before_action :user_type!, only: :current_user_data
+      before_action :set_user, only: [:show, :update]
       def index
         paginate json: User.ransack(params[:q]).result
       end
@@ -10,7 +11,6 @@ module Api
 
       def create
         user = User.new(user_params)
-
         if user.save
           auth_token = JsonWebToken.encode({user_id: user.id})
           render json: {status: 'User created successfully', auth_token: auth_token}, status: :created
@@ -20,7 +20,12 @@ module Api
       end
 
       def show
-        render json: User.find(params[:id])
+        render json: @user
+      end
+
+      def update
+        @user.update(user_params)
+        render json: @user
       end
 
       def current_user_data
@@ -40,8 +45,12 @@ module Api
 
       private
 
+      def set_user
+        @user = User.find(params[:id])
+      end
+
       def user_params
-        params.require(:user).permit(:email, :password, :password_confirmation, :dishes_ids => [])
+        params.require(:user).permit(:email, :password, :password_confirmation, :permission_ids, :dishes_ids => [])
       end
     end
   end
