@@ -1,8 +1,8 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :authenticate_request!, only: [:show, :create]
-      before_action :user_type!, only: :current_user_data
+      before_action :authenticate_request!, only: [:show, :create, :update_permissions]
+      before_action :user_type!, only: [:current_user_data]
       before_action :set_user, only: [:show, :update]
       def index
         paginate json: User.ransack(params[:q]).result
@@ -26,6 +26,12 @@ module Api
       def update
         @user.update(user_params)
         render json: @user
+      end
+
+      def update_permissions
+        user = User.find(params[:user_id])
+        user.update_attribute(:permission_ids, params[:permission_ids])
+        render json: user
       end
 
       def current_user_data

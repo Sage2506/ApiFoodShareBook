@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     end
     resources :users do
       get 'show'
+      put 'update_permissions'
     end
     resources :ingredient_measures, only: [:index, :create]
     resources :ingredient_measures do
