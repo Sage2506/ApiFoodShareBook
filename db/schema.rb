@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210613030222) do
+ActiveRecord::Schema.define(version: 20210615061205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,12 +72,10 @@ ActiveRecord::Schema.define(version: 20210613030222) do
   create_table "permissions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "role_id"
     t.bigint "permission_type_id"
     t.string "name"
     t.string "description"
     t.index ["permission_type_id"], name: "index_permissions_on_permission_type_id"
-    t.index ["role_id"], name: "index_permissions_on_role_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -125,7 +123,6 @@ ActiveRecord::Schema.define(version: 20210613030222) do
   add_foreign_key "ingredient_measures", "ingredients"
   add_foreign_key "ingredient_measures", "measures"
   add_foreign_key "permissions", "permission_types"
-  add_foreign_key "permissions", "roles"
   add_foreign_key "system_permissions", "permission_types"
   add_foreign_key "users", "roles"
 end
