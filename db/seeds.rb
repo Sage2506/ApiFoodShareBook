@@ -17,7 +17,6 @@ m5 = Measure.create(name: "Litros")
 m6 = Measure.create(name: "Cucharadas")
 m7 = Measure.create(name: "Tazas")
 m8 = Measure.create(name: "Rebanadas")
-m9 = Measure.create(name: "Pieza")
 
 # d1 = Dish.create(name: "Cochinita Pibil", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://cdn.kiwilimon.com/recetaimagen/495/th5-640x426-2200.jpg", user_id: u1.id)
 # d2 = Dish.create(name: "Cochinita Pibil 1", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://upload.wikimedia.org/wikipedia/commons/8/84/Cochinita_pibil_2.jpg",  user_id: u1.id)
