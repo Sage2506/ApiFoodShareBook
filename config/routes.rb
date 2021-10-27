@@ -60,6 +60,7 @@ Rails.application.routes.draw do
         get 'current_user_permissions'
       end
 
+
       #Permissions
       resources :user_permissions, only:[:create, :destroy]
 

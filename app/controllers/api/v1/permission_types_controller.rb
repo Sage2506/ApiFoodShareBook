@@ -2,7 +2,7 @@ module Api
   module V1
     class PermissionTypesController < ApplicationController
       before_action :authenticate_request!, only: [:create, :current_user_permissions]
-      before_action :set_ingredient, only: :update
+      before_action :set_permission_type, only: [:update, :show]
       #GET permission_types
       def index
         paginate json: PermissionType.ransack(params[:q]).result
@@ -16,6 +16,10 @@ module Api
         else
           render json: { message: "Permission type could no be created"}, status: 409
         end
+      end
+
+      def show
+        render json: @permission_type
       end
 
       #PUT permission_types
