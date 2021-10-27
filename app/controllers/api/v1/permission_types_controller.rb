@@ -1,7 +1,7 @@
 module Api
   module V1
     class PermissionTypesController < ApplicationController
-      before_action :authenticate_request!, only: [:create]
+      before_action :authenticate_request!, only: [:create, :current_user_permissions]
       before_action :set_ingredient, only: :update
       #GET permission_types
       def index
@@ -26,6 +26,10 @@ module Api
         else
           render json: { message: "Permission type could no be updated"}, status: 409
         end
+      end
+
+      def current_user_permissions
+        render json: @current_user.permissions.where(permission_type_id: params[:permission_type_id])
       end
 
       private
