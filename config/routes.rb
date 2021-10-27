@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   resources :permissions do
     get 'show'
   end
-  resources :user_permissions, only:[:index, :create]
+  resources :user_permissions
 
   resources :roles, only:[:index, :create]
   resources :roles do

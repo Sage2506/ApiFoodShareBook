@@ -47,7 +47,7 @@ module Api
       def destroy
         @ingredient.ingredient_measures.destroy_all
         if @ingredient.destroy
-          render json: {message: "successfully deleted!"}, status: 200
+          render json: {message: "successfully deleted!"}, status: :ok
         else
           render json: {message: "Ingredient could not be deleted"}, status: 409
         end
