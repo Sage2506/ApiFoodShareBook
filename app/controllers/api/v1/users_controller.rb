@@ -51,7 +51,14 @@ module Api
 
       def permissions
         user = User.find(params[:user_id])
-        render json: user.permissions
+        user_permissions = user.user_permissions.map do |user_permission|
+          {
+            id: user_permission.id,
+            name: user_permission.permission.name,
+            description: user_permission.permission.description
+          }
+        end
+        render json: user_permissions
       end
       private
 
