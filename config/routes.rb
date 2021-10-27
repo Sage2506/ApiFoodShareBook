@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :users do
       get 'show'
       put 'update_permissions'
+      get 'permissions'
     end
     resources :ingredient_measures, only: [:index, :create]
     resources :ingredient_measures do
@@ -39,7 +40,7 @@ Rails.application.routes.draw do
   resources :permissions do
     get 'show'
   end
-  resources :user_permissions
+  resources :user_permissions, only:[:create, :destroy]
 
   resources :roles, only:[:index, :create]
   resources :roles do

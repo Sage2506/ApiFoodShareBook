@@ -49,6 +49,10 @@ module Api
         end
       end
 
+      def permissions
+        user = User.find(params[:user_id])
+        render json: user.permissions
+      end
       private
 
       def set_user
