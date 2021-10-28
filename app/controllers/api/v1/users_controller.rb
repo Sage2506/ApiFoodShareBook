@@ -56,6 +56,7 @@ module Api
             id: user_permission.id,
             name: user_permission.permission.name,
             description: user_permission.permission.description
+            permission_id: user_permission.permission.id
           }
         end
         render json: user_permissions
