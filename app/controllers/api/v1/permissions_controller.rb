@@ -2,7 +2,7 @@ module Api
   module V1
     class PermissionsController < ApplicationController
       before_action :authenticate_request!, only: [:create, :update]
-      before_action :set_permission, only: [:show, :update]
+      before_action :set_permission, only: [:show, :update, :destroy]
       def index
         paginate json: Permission.ransack(params[:q]).result
       end
@@ -27,6 +27,14 @@ module Api
 
       def show
         render json: @permission
+      end
+
+      def destroy
+        if @permission.destroy
+          render json: {message: "successfully deleted!"}, status: :ok
+        else
+          render json: {message: "Permission could not be deleted"}, status: 409
+        end
       end
 
       def update
