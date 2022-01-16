@@ -17,6 +17,7 @@ module Api
         ingredient = nil
         Ingredient.transaction do
           ingredient = Ingredient.new(ingredient_params)
+          ingredient.user_id = @current_user.id
           if ingredient.save
             if params[:measures] && !ingredient.save_measures(params[:measures])
             result = 2

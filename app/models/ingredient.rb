@@ -1,8 +1,12 @@
 class Ingredient < ApplicationRecord
+  validates_presence_of :name
+  validates :name, uniqueness: true
+  validates_presence_of :description
   has_many :dish_ingredients
   has_many :dishes, through: :dish_ingredients
   has_many :ingredient_measures, dependent: :destroy
   has_many :measures, through: :ingredient_measures
+  belongs_to :user
 
   def save_measures(measures_ids)
     result = true
