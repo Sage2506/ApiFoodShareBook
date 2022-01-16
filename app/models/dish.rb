@@ -1,4 +1,6 @@
 class Dish < ApplicationRecord
+  validates_presence_of :name
+  validates_presence_of :description
   has_many :dish_ingredients, dependent: :destroy
   has_many :ingredients, through: :dish_ingredients
   has_many :user_likes_dishes
@@ -9,8 +11,8 @@ class Dish < ApplicationRecord
     DishIngredient.transaction do
       dish_ingredients.each do |dish_ingredient|
         new_dish_ingredient = DishIngredient.new(
-          dish_id: self.id, 
-          ingredient_id: dish_ingredient[:ingredient_id], 
+          dish_id: self.id,
+          ingredient_id: dish_ingredient[:ingredient_id],
           quantity: dish_ingredient[:quantity],
           measure_id: dish_ingredient[:measure_id]
         )

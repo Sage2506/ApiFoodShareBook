@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20211027172919) do
+ActiveRecord::Schema.define(version: 20220116205611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 20211027172919) do
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", default: 1
+    t.index ["user_id"], name: "index_ingredients_on_user_id"
   end
 
   create_table "measures", force: :cascade do |t|
@@ -131,6 +133,7 @@ ActiveRecord::Schema.define(version: 20211027172919) do
   add_foreign_key "dishes", "users"
   add_foreign_key "ingredient_measures", "ingredients"
   add_foreign_key "ingredient_measures", "measures"
+  add_foreign_key "ingredients", "users"
   add_foreign_key "permissions", "permission_types"
   add_foreign_key "system_permissions", "permission_types"
   add_foreign_key "users", "roles"
