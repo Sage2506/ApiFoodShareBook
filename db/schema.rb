@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220116205611) do
+ActiveRecord::Schema.define(version: 20220225152739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,37 @@ ActiveRecord::Schema.define(version: 20220116205611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", default: 1
+    t.integer "type"
     t.index ["user_id"], name: "index_ingredients_on_user_id"
+  end
+
+  create_table "list_items", force: :cascade do |t|
+    t.integer "ingredient_id"
+    t.string "name"
+    t.integer "quantity"
+    t.integer "status", default: 0
+    t.bigint "list_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_list_items_on_list_id"
+  end
+
+  create_table "lists", force: :cascade do |t|
+    t.string "name"
+    t.bigint "user_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_lists_on_user_id"
+  end
+
+  create_table "meals", force: :cascade do |t|
+    t.datetime "schedule"
+    t.bigint "dish_id"
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["dish_id"], name: "index_meals_on_dish_id"
   end
 
   create_table "measures", force: :cascade do |t|

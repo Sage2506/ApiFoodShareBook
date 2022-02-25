@@ -25,4 +25,12 @@ class Dish < ApplicationRecord
     return result
   end
 
+  def to_list
+    Hash[dish_ingredients.collect { |dish_ingredient| [dish_ingredient.ingredient_id, to_list_item(dish_ingredient) ] }]
+  end
+
+  def to_list_item(dish_ingredient)
+    { "name" => dish_ingredient.ingredient.name, "quantity" => dish_ingredient.amount}
+  end
+
 end
