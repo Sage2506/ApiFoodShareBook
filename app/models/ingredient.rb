@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Ingredient < ApplicationRecord
-  validates_presence_of :name
+  validates :name, presence: true
   validates :name, uniqueness: true
-  validates_presence_of :description
+  validates :description, presence: true
   has_many :dish_ingredients
   has_many :dishes, through: :dish_ingredients
   has_many :ingredient_measures, dependent: :destroy
@@ -13,17 +15,16 @@ class Ingredient < ApplicationRecord
     IngredientMeasure.transaction do
       measures_ids.each do |measure_id|
         new_ingredient_measure = IngredientMeasure.new(
-          measure_id: measure_id,
-          ingredient_id: self.id
+          measure_id,
+          ingredient_id: id
         )
 
-        if(!new_ingredient_measure.save)
+        unless new_ingredient_measure.save
           result = false
           raise ActiveRecord::Rollback, "Ingredient measure not saved"
         end
       end
     end
-    return result
+    result
   end
-
 end

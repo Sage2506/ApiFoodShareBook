@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Measure < ApplicationRecord
-  has_many :ingredient_measures
+  has_many :ingredient_measures, dependent: :destroy
   has_many :ingredients, through: :ingredient_measures
-  has_one :dish_ingredients
+  belongs_to :dish_ingredients
 end

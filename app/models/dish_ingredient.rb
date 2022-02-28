@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DishIngredient < ApplicationRecord
   belongs_to :dish
   belongs_to :ingredient
@@ -5,6 +7,6 @@ class DishIngredient < ApplicationRecord
   scope :by_date, -> { order(created_date: :desc) }
 
   def amount
-    self.quantity
+    quantity
   end
 end

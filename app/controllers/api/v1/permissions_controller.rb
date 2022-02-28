@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class PermissionsController < ApplicationController
-      before_action :authenticate_request!, only: [:create, :update]
-      before_action :set_permission, only: [:show, :update, :destroy]
+      before_action :authenticate_request!, only: %i[create update]
+      before_action :set_permission, only: %i[show update destroy]
       def index
         paginate json: Permission.ransack(params[:q]).result
       end
@@ -12,17 +14,15 @@ module Api
         permission = nil
         Permission.transaction do
           permission = Permission.new(permission_params)
-          if !permission.save
-            result = 1
-          end
+          result = 1 unless permission.save
         end
 
         case result
-          when 1
-            render status: :internal_server_error, json: { message: permission.errors.full_message }
-          else
-            render json: permission
-          end
+        when 1
+          render status: :internal_server_error, json: { message: permission.errors.full_message }
+        else
+          render json: permission
+        end
       end
 
       def show
@@ -31,9 +31,9 @@ module Api
 
       def destroy
         if @permission.destroy
-          render json: {message: "successfully deleted!"}, status: :ok
+          render json: { message: "successfully deleted!" }, status: :ok
         else
-          render json: {message: "Permission could not be deleted"}, status: 409
+          render json: { message: "Permission could not be deleted" }, status: :conflict
         end
       end
 
@@ -42,18 +42,18 @@ module Api
         if @permission.save
           render json: @permission
         else
-          render status: :internal_server_error, json: { message: @permission.errors.full_message}
+          render status: :internal_server_error, json: { message: @permission.errors.full_message }
         end
       end
 
       private
 
       def set_permission
-        @permission = Permission.find( params[:id] )
+        @permission = Permission.find(params[:id])
       end
 
       def permission_params
-        params.require(:permission).permit( :permission_type_id, :name, :description)
+        params.require(:permission).permit(:permission_type_id, :name, :description)
       end
     end
   end
