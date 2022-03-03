@@ -5,13 +5,12 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
- Rails.application.config.middleware.insert_before 0, Rack::Cors do
-   allow do
-     origins '*'
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    origins "localhost:3000"
 
-     resource '*',
-       headers: :any,
-       expose: ['Pagination-Total','Pagination-Per-Page','Pagination-Page', 'Link'],
-       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-   end
- end
+    resource "*",
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head], expose: %w[ Pagination-Page Pagination-Per-Page Pagination-Total]
+  end
+end

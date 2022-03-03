@@ -14,7 +14,7 @@ module Api
         user = User.new(user_params)
         if user.save
           auth_token = JsonWebToken.encode({ user_id: user.id })
-          render json: { status: "User created successfully", auth_token: }, status: :created
+          render json: { status: "User created successfully", auth_token: auth_token }, status: :created
         else
           render json: { errors: user.errors.full_messages }, status: :bad_request
         end
@@ -43,7 +43,7 @@ module Api
         user = User.find_by(email: params[:email].to_s.downcase)
         if user&.authenticate(params[:password])
           auth_token = JsonWebToken.encode({ user_id: user.id })
-          render json: { auth_token: }, status: :ok
+          render json: { auth_token: auth_token }, status: :ok
         else
           render json: { error: "Invalid username / password" }, status: :unauthorized
         end

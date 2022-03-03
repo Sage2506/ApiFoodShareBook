@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source "http://rubygems.org"
-ruby "2.5.1"
+ruby "3.1.0"
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -13,12 +13,12 @@ gem "api-pagination"
 gem "bcrypt", "~> 3.1.7"
 gem "figaro"
 gem "jwt"
-gem "pg", "~> 0.18"
+gem 'pg', '~> 1.3', '>= 1.3.3'
 gem "puma", "~> 4.3"
 gem "rack-cors"
-gem "rails", "~> 5.1.4"
+gem "rails", "~> 7.0.1"
 gem "ransack"
-gem "will_paginate"
+gem 'will_paginate'
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
