@@ -9,14 +9,14 @@ User.create(email: "paulinahumaran1@gmail.com",password_digest: BCrypt::Password
 
 u1 = User.find(1)
 
-m1 = Measure.create(name: "Piezas")
-m2 = Measure.create(name: "Gramos")
-m3 = Measure.create(name: "Kilogramos")
-m4 = Measure.create(name: "Mililitros")
-m5 = Measure.create(name: "Litros")
-m6 = Measure.create(name: "Cucharadas")
-m7 = Measure.create(name: "Tazas")
-m8 = Measure.create(name: "Rebanadas")
+m1 = Measure.create(name: "Piezas", group: 3, equivalent: 1)
+m2 = Measure.create(name: "Gramos", group: 1, equivalent: 1)
+m3 = Measure.create(name: "Kilogramos", group: 1, equivalent: 1000)
+m4 = Measure.create(name: "Mililitros", group: 2, equivalent: 1)
+m5 = Measure.create(name: "Litros", group: 2, equivalent: 1000)
+m6 = Measure.create(name: "Cucharadas", group: 2, equivalent: 14.79)
+m7 = Measure.create(name: "Tazas", group: 2, equivalent: 236.588)
+m8 = Measure.create(name: "Rebanadas", group: 3, equivalent: 1)
 
 d1 = Dish.create(name: "Cochinita Pibil", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://cdn.kiwilimon.com/recetaimagen/495/th5-640x426-2200.jpg", user_id: u1.id)
 d2 = Dish.create(name: "Cochinita Pibil 1", description: "La cochinita pibil es un plato típico de la región de Yucatán en México. Antiguamente los mayas lo cocinaban en un horno subterráneo, ahora se puede preparar en un horno convencional dejando marinar toda la noche. Se sirve con cebolla encurtida con chile habanero.", recipe: "https://www.kiwilimon.com/receta/carnes-y-aves/cochinita-pibil-yucateca", image: "https://upload.wikimedia.org/wikipedia/commons/8/84/Cochinita_pibil_2.jpg",  user_id: u1.id)

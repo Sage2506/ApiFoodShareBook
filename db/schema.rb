@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_28_160920) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_03_140248) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,7 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_28_160920) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.bigint "user_id", default: 1
-    t.integer "type"
+    t.integer "group"
     t.index ["name"], name: "index_ingredients_on_name", unique: true
     t.index ["user_id"], name: "index_ingredients_on_user_id"
   end
@@ -93,6 +93,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_28_160920) do
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "group"
+    t.float "equivalent"
   end
 
   create_table "permission_types", force: :cascade do |t|
