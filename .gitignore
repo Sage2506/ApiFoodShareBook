@@ -49,3 +49,5 @@ config/
 
 # Exeption for pagination initializers
 ! config/initializers/api_pagination.rb
+
+app/models/workspace.code-workspace

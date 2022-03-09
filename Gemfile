@@ -13,12 +13,12 @@ gem "api-pagination"
 gem "bcrypt", "~> 3.1.7"
 gem "figaro"
 gem "jwt"
-gem 'pg', '~> 1.3', '>= 1.3.3'
+gem "pg", "~> 1.3", ">= 1.3.3"
 gem "puma", "~> 4.3"
 gem "rack-cors"
 gem "rails", "~> 7.0.1"
 gem "ransack"
-gem 'will_paginate'
+gem "will_paginate"
 
 group :development, :test do
   gem "byebug", platforms: %i[mri mingw x64_mingw]
