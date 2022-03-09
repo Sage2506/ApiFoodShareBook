@@ -1,5 +1,8 @@
 
 
+Layout/EndOfLine:
+   Enabled: False
+
 Rails/HasManyOrHasOneDependent:
   Exclude:
     - 'app/models/ingredient.rb'
