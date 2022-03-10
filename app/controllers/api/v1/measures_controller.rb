@@ -4,7 +4,7 @@ module Api
   module V1
     class MeasuresController < ApplicationController
       def index
-        render json: Measure.all
+        paginate json: Measure.ransack(params[:q]).result
       end
 
       private
