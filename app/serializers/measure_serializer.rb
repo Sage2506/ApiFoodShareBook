@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class MeasureSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :group
 end
