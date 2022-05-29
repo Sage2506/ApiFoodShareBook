@@ -29,7 +29,7 @@ Rails.application.routes.draw do
       resources :ingredient_measures, only: %i[index create show]
 
       #Measures
-      resources :measures, only: %i[index show ]
+      resources :measures, only: %i[index show update]
 
       #Permissions
       resources :permissions, only: %i[index create update show]
