@@ -24,7 +24,7 @@ module Api
       private
 
       def measure_params
-        params.require(:measure).permit(:name, :group)
+        params.require(:measure).permit(:name, :group, :equivalent)
       end
 
       def set_measure
