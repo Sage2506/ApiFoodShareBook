@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       #Users
-      resources :users, only: [:index, :create,:update, :show] do
+      resources :users, only: %i[index create update show] do
         collection do
           post 'login'
           get 'current_user_data'
@@ -17,59 +17,35 @@ Rails.application.routes.draw do
       end
 
       #Dishes
-      resources :dishes, only: [:index, :create, :destroy, :update]
-
-      resources :dishes do
-        get 'show'
-      end
+      resources :dishes, only: %i[index create destroy update show]
 
       #Dish ingredients
-      resources :dish_ingredients, only: [:index, :create, :destroy]
-
-      resources :dish_ingredients do
-        get 'show'
-      end
+      resources :dish_ingredients, only: %i[index create destroy show]
 
       #Ingredients
-      resources :ingredients, only: [:index, :create, :destroy, :update]
-
-      resources :ingredients do
-        get 'show'
-      end
+      resources :ingredients, only: %i[index create destroy update show]
 
       #Ingredient Measures
-      resources :ingredient_measures, only: [:index, :create]
-
-      resources :ingredient_measures do
-        get 'show'
-      end
+      resources :ingredient_measures, only: %i[index create show]
 
       #Measures
-      resources :measures, only: [:index]
+      resources :measures, only: %i[index show ]
 
       #Permissions
-      resources :permissions, only:[:index, :create, :update]
-
-      resources :permissions do
-        get 'show'
-      end
+      resources :permissions, only: %i[index create update show]
 
       #Permission Types
-      resources :permission_types, only:[:index, :create]
+      resources :permission_types, only: %i[index create]
       resources :permission_types do
         get 'current_user_permissions'
       end
 
 
       #Permissions
-      resources :user_permissions, only:[:create, :destroy]
+      resources :user_permissions, only: %i[create destroy]
 
       #Roles
-      resources :roles, only:[:index, :create]
-
-      resources :roles do
-        get 'show'
-      end
+      resources :roles, only: %i[index create show]
     end
   end
 end
