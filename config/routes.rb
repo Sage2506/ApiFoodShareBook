@@ -26,10 +26,10 @@ Rails.application.routes.draw do
       resources :ingredients, only: %i[index create destroy update show]
 
       #Ingredient Measures
-      resources :ingredient_measures, only: %i[index create show]
+      resources :ingredient_measures, only: %i[index create show destroy]
 
       #Measures
-      resources :measures, only: %i[index create show update]
+      resources :measures, only: %i[index create show update destroy]
 
       #Permissions
       resources :permissions, only: %i[index create update show]

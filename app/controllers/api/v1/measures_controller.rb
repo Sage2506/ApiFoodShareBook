@@ -4,7 +4,7 @@ module Api
   module V1
     class MeasuresController < ApplicationController
       before_action :authenticate_request!, only: %i[create update destroy]
-      before_action :set_measure, only: %i[show update]
+      before_action :set_measure, only: %i[show update destroy]
       def index
         paginate json: Measure.ransack(params[:q]).result
       end
@@ -29,6 +29,11 @@ module Api
         else
           render status: :internal_server_error, json: { message: @measure.errors.full_message }
         end
+      end
+
+      def destroy
+        @measure.destroy
+        render json: { message: "successfully deleted!" }, status: :ok
       end
 
       private
