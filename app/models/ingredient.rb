@@ -14,11 +14,7 @@ class Ingredient < ApplicationRecord
     result = true
     IngredientMeasure.transaction do
       measures_ids.each do |measure_id|
-        new_ingredient_measure = IngredientMeasure.new(
-          measure_id,
-          ingredient_id: id
-        )
-
+        new_ingredient_measure = IngredientMeasure.new(measure_id: measure_id, ingredient_id:id)
         unless new_ingredient_measure.save
           result = false
           raise ActiveRecord::Rollback, "Ingredient measure not saved"
