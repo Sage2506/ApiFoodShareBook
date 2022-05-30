@@ -1,4 +1,6 @@
+# frozen_string_literal: true
+
 class Permission < ApplicationRecord
-  validates_presence_of :name
+  validates :name, presence: true
   belongs_to :permission_type
 end

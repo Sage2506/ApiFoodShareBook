@@ -1,17 +1,21 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class IngredientsController < ApplicationController
-      before_action :authenticate_request!, only: [:create, :update]
-      before_action :set_ingredient, only: [:show, :update, :destroy]
-      #GET ingredients
+      before_action :authenticate_request!, only: %i[create update]
+      before_action :set_ingredient, only: %i[show update destroy]
+      # GET ingredients
       def index
-          paginate json: Ingredient.ransack(params[:q]).result
+        paginate json: Ingredient.ransack(params[:q]).result
       end
-      #GET ingredients/:id
+
+      # GET ingredients/:id
       def show
         render json: @ingredient
       end
-      #POST ingredients
+
+      # POST ingredients
       def create
         result = 0
         ingredient = nil
@@ -20,8 +24,8 @@ module Api
           ingredient.user_id = @current_user.id
           if ingredient.save
             if params[:measures] && !ingredient.save_measures(params[:measures])
-            result = 2
-            raise ActiveRecord::Rollback, "Ingredient not saved"
+              result = 2
+              raise ActiveRecord::Rollback, "Ingredient not saved"
             end
           else
             result = 1
@@ -30,27 +34,30 @@ module Api
 
         case result
         when 1
-          render status: :internal_server_error, json: { message: ingredient.errors.full_message}
+          render status: :internal_server_error, json: { message: ingredient.errors.full_message }
         when 2
-          render status: :unprocessable_entity, json: {message: "One or more measures could not be created, check if measure exists"}
+          render status: :unprocessable_entity,
+                 json: { message: "One or more measures could not be created, check if measure exists" }
         else
           render json: ingredient
         end
       end
-      #PUT ingredients/:id
+
+      # PUT ingredients/:id
       def update
         @ingredient.update(ingredient_params)
         @ingredient.ingredient_measures.destroy_all
         @ingredient.save_measures(params[:measures])
         render json: @ingredient
       end
-      #DELETE ingredients/:id
+
+      # DELETE ingredients/:id
       def destroy
         @ingredient.ingredient_measures.destroy_all
         if @ingredient.destroy
-          render json: {message: "successfully deleted!"}, status: :ok
+          render json: { message: "successfully deleted!" }, status: :ok
         else
-          render json: {message: "Ingredient could not be deleted"}, status: 409
+          render json: { message: "Ingredient could not be deleted" }, status: :conflict
         end
       end
 

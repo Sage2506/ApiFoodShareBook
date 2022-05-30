@@ -1,11 +1,9 @@
+# frozen_string_literal: true
+
 class DishIngredientSerializer < ActiveModel::Serializer
   attributes :id, :quantity, :measure, :ingredient
 
-  def measure
-    object.measure
-  end
+  delegate :measure, to: :object
 
-  def ingredient
-    object.ingredient
-  end
+  delegate :ingredient, to: :object
 end

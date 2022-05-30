@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   belongs_to :role
-  has_many :user_likes_dishes
+  has_many :user_likes_dishes, dependent: :destroy
   has_many :dishes, through: :user_likes_dishes
-  has_many :user_permissions
+  has_many :user_permissions, dependent: :destroy
   has_many :permissions, through: :user_permissions
-  has_many :ingredients
+  has_many :ingredients, dependent: :destroy
   has_secure_password
-  validates_presence_of :email
-  validates_uniqueness_of :email, case_sensitive: false
-  validates_format_of :email, with: /@/
+  validates :email, presence: true
+  validates :email, uniqueness: { case_sensitive: false }
+  validates :email, format: { with: /@/ }
 
   after_initialize :set_defaults, unless: :persisted?
   # The set_defaults will only work if the object is new
@@ -16,11 +18,11 @@ class User < ApplicationRecord
   # before_create :generate_confirmation_instructions
 
   def downcase_email
-    self.email = self.email.delete(' ').downcase
+    self.email = email.delete(" ").downcase
   end
 
-  def isAdmin
-    return self.role.name == 'Admin'
+  def admin?
+    role.name == "Admin"
   end
 
   # def generate_confirmation_instructions
@@ -29,9 +31,6 @@ class User < ApplicationRecord
   # end
 
   def set_defaults
-    if !self.role_id
-      self.role_id = 4
-    end
+    self.role_id = 4 unless role_id
   end
-
 end

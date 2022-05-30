@@ -1,0 +1,23 @@
+
+
+Layout/EndOfLine:
+   Enabled: False
+
+Rails/HasManyOrHasOneDependent:
+  Exclude:
+    - 'app/models/ingredient.rb'
+    - 'app/models/user.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/models/ingredient.rb'
+    - 'app/models/dish.rb'
+    - 'app/controllers/api/v1/permissions_controller.rb'
+    - 'app/controllers/api/v1/ingredients_controller.rb'
+    - 'app/controllers/api/v1/ingredient_measures_controller.rb'
+    - 'app/controllers/api/v1/dishes_controller.rb'
+    - 'app/controllers/api/v1/dish_ingredients_controller.rb'
+
+Metrics/AbcSize:
+  IgnoredMethods:
+    - create
