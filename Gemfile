@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source "http://rubygems.org"
-ruby "3.1.0"
+ruby "3.3.1"
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -13,6 +13,8 @@ gem "api-pagination"
 gem "bcrypt", "~> 3.1.7"
 gem "figaro"
 gem "jwt"
+gem "nio4r", ">= 2.7.3"
+gem "nokogiri", ">= 1.16"
 gem "pg", "~> 1.3", ">= 1.3.3"
 gem "puma", "~> 4.3"
 gem "rack-cors"
