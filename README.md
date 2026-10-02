@@ -1,58 +1,51 @@
-# ApiFoodShareBook (Rails API)
+# ApiFoodShareBook
 
-ApiFoodShareBook is a Rails API-only backend for managing dishes, ingredients,
-measures, users, and role/permission data for the FoodShareBook application.
+ApiFoodShareBook is the Rails API backend for FoodShareBook, a recipe-sharing
+application. It provides a versioned REST API for users and roles, dishes,
+ingredients, measures, and the associations used to compose recipes. The data
+model also includes user permissions and saved-dish and list-related records.
 
-This document is an onboarding guide intended for mid/senior developers.
+## Tech stack
 
-## 1. Tech Stack and Runtime
+- Ruby 3.3.1 (`.ruby-version` and `Gemfile`)
+- Rails 7.0.2.2, API-only mode
+- PostgreSQL
+- Puma
+- JWT authentication, with BCrypt password hashing
+- ActiveModelSerializers, Ransack, API Pagination, and WillPaginate
 
-- Ruby: `3.1.0`
-- Rails: `7.0.1` (API-only mode)
-- Database: PostgreSQL
-- Auth: JWT (`Authorization: Bearer <token>`)
-- Serialization: ActiveModelSerializers
-- Querying and pagination: Ransack + API Pagination + WillPaginate
+## Run locally
 
-## 2. Repository Structure
+### Prerequisites
 
-- `app/controllers/api/v1`: versioned REST API controllers
-- `app/models`: domain models and associations
-- `app/serializers`: API response serializers
-- `db/migrate`, `db/schema.rb`, `db/seeds.rb`: persistence layer
-- `lib/json_web_token.rb`: token encoding/decoding/validation
-- `config/routes.rb`: API endpoints
+- Ruby 3.3.1 and Bundler
+- PostgreSQL running locally
+- A PostgreSQL role that can create databases
 
-## 3. Prerequisites
+From the repository root, configure the local database connection. These
+environment variables match the settings read by `config/database.yml`; set
+the username and password to match your local PostgreSQL installation:
 
-Install the following before bootstrapping the project:
-
-1. Ruby `3.1.0` (rbenv or rvm recommended)
-2. Bundler (`gem install bundler`)
-3. PostgreSQL 13+ (or a compatible local version)
-
-## 4. First-Time Setup
-
-From the `ApiFoodShareBook` folder:
-
-```bash
-bundle install
+```sh
+export POSTGRES_HOST=localhost
+export POSTGRES_PORT=5432
+export POSTGRES_USER="$(whoami)"
+export POSTGRES_PASSWORD=
 ```
 
-### 4.1 Create `config/database.yml`
-
-This file is intentionally not committed.
-
-Create `config/database.yml` with local PostgreSQL credentials. Example:
+If PostgreSQL requires a password, set `POSTGRES_PASSWORD` to that password.
+The config file is ignored by Git, so create `config/database.yml` if it is
+missing:
 
 ```yaml
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: localhost
-  username: postgres
-  password: postgres
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
+  host: <%= ENV["POSTGRES_HOST"] %>
+  port: <%= ENV.fetch("POSTGRES_PORT", 5432) %>
+  username: <%= ENV.fetch("POSTGRES_USER", ENV.fetch("USER")) %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
 
 development:
   <<: *default
@@ -61,163 +54,79 @@ development:
 test:
   <<: *default
   database: api_food_share_book_test
-
-production:
-  <<: *default
-  database: api_food_share_book_production
-  username: <%= ENV["API_FOOD_SHARE_BOOK_DB_USER"] %>
-  password: <%= ENV["API_FOOD_SHARE_BOOK_DB_PASSWORD"] %>
 ```
 
-### 4.2 Initialize DB
+The API signs JWTs with `Rails.application.secrets.secret_key_base`. Generate a
+local key and keep it out of source control:
 
-```bash
-bin/rails db:create db:migrate db:seed
+```sh
+export SECRET_KEY_BASE="$(ruby -rsecurerandom -e 'puts SecureRandom.hex(64)')"
 ```
 
-If you prefer the setup script:
+Create `config/secrets.yml` if it is missing. This file is also ignored by Git:
 
-```bash
-bin/setup
+```yaml
+development:
+  secret_key_base: <%= ENV.fetch("SECRET_KEY_BASE") %>
+
+test:
+  secret_key_base: <%= ENV.fetch("SECRET_KEY_BASE") %>
 ```
 
-Note: `bin/setup` also runs `db:prepare`, clears temp/log files, and attempts
-to restart the app server.
+Install the gems, prepare the development database, and start the API:
 
-## 5. Run the API
-
-Start on port `5000` (expected by the React frontend in this workspace):
-
-```bash
-bin/rails s -p 5000
+```sh
+bundle install
+bin/rails db:prepare
+bin/rails server -p 5000
 ```
 
-Base API URL:
+The API is then available at `http://localhost:5000/api/v1`. Keep the database
+and secret environment variables set in the terminal session running Rails.
+When opening a new terminal, export them again.
 
-- `http://localhost:5000/api/v1`
+> **Seed data:** `db/seeds.rb` currently references measure ID 9, but creates
+> only eight measures. On a fresh database, `bin/rails db:seed` can therefore
+> fail with a foreign-key error. The API can be started without seed data.
 
-## 6. Authentication Model
+## API overview
 
-JWT is used for authenticated endpoints.
+Routes are versioned under `/api/v1`. Common resource endpoints include:
 
-1. Obtain a token via:
-   - `POST /api/v1/users/login`
-2. Send token in request headers:
-   - `Authorization: Bearer <token>`
-3. Token validation includes:
-   - expiration (`exp`)
-   - issuer (`iss`)
-   - audience (`aud`)
+- Users: `/users` and `/users/login`
+- Dishes: `/dishes`
+- Ingredients: `/ingredients`
+- Measures: `/measures`
+- Recipe associations: `/dish_ingredients` and `/ingredient_measures`
+- Roles and permissions: `/roles`, `/permissions`, `/permission_types`, and
+  `/user_permissions`
 
-If token parsing or validation fails, API returns `401 Invalid Request`.
+Log in with `POST /api/v1/users/login`, passing `email` and `password` in the
+request body. The response contains an `auth_token`; send it on authenticated
+requests as `Authorization: Bearer <auth_token>`.
 
-## 7. Common API Endpoints
-
-All endpoints are under `/api/v1`.
-
-### Users
-
-- `GET /users`
-- `POST /users`
-- `POST /users/login`
-- `GET /users/current_user_data`
-- `GET /users/:id`
-- `PUT /users/:id`
-- `PUT /users/:user_id/update_permissions`
-- `GET /users/:user_id/permissions`
-
-### Core catalog
-
-- `GET|POST|PUT|DELETE /dishes`
-- `GET|POST|PUT|DELETE /ingredients`
-- `GET|POST|PUT|DELETE /measures`
-- `GET|POST|DELETE /dish_ingredients`
-- `GET|POST|DELETE /ingredient_measures`
-
-### Authorization domain
-
-- `GET|POST|PUT /permissions`
-- `GET|POST /permission_types`
-- `GET /permission_types/:permission_type_id/current_user_permissions`
-- `POST|DELETE /user_permissions`
-- `GET|POST /roles`
-
-## 8. Querying and Pagination
-
-Collection endpoints support search through Ransack query params and pagination
-headers exposed through CORS.
-
-Typical query pattern:
+Collection endpoints support Ransack search parameters, for example:
 
 ```text
-GET /api/v1/users?q[email_cont]=john
+GET /api/v1/users?q[email_cont]=example
 ```
 
-Pagination metadata is exposed via response headers:
+Pagination metadata is returned in the `Pagination-Page`,
+`Pagination-Per-Page`, and `Pagination-Total` response headers.
 
-- `Pagination-Page`
-- `Pagination-Per-Page`
-- `Pagination-Total`
-
-## 9. CORS and Frontend Integration
-
-CORS currently allows:
-
-- `localhost:3000`
-
-This matches the React frontend app in the same workspace. If your frontend
-runs from another origin, update `config/initializers/cors.rb`.
-
-## 10. Test and Quality Commands
+## Development commands
 
 Run the test suite:
 
-```bash
+```sh
 bin/rails test
 ```
 
-Run static analysis (if enabled locally):
+Run RuboCop:
 
-```bash
+```sh
 bundle exec rubocop
 ```
 
-## 11. Seed Data Notes
-
-`db/seeds.rb` creates baseline roles, users, measures, ingredients, dishes, and
-permission types.
-
-Important for local development:
-
-- It creates at least one admin user.
-- It inserts sample Spanish-language content for dishes/ingredients.
-
-If you need a clean reset:
-
-```bash
-bin/rails db:drop db:create db:migrate db:seed
-```
-
-## 12. Known Gotchas
-
-1. `config/database.yml` is not in the repository and must be created locally.
-2. The API relies on `config/secrets.yml` in development/test for JWT signing.
-3. CORS is narrow by default (`localhost:3000` only).
-4. Frontend default API target is `http://localhost:5000/api/v1/`.
-
-## 13. Daily Developer Workflow (Suggested)
-
-1. Pull latest changes.
-2. Run `bundle install` if gems changed.
-3. Run `bin/rails db:migrate`.
-4. Start API on port 5000.
-5. Authenticate through `/users/login` and validate protected endpoints.
-6. Run `bin/rails test` before opening a PR.
-
-## 14. Production Readiness Checklist (Short)
-
-- Move all secrets to environment variables.
-- Review CORS policy and lock to real frontend domains.
-- Add request specs for auth and permission boundaries.
-- Add CI pipeline for tests and RuboCop.
-- Add structured logging and error monitoring.
+The CORS initializer allows `http://localhost:3000` and
+`http://127.0.0.1:3000` for local frontend development.
